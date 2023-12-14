@@ -7,6 +7,7 @@ from jugadores import Jugador_Humano, Jugador_IA
 class Partida:
     tablero = []
     jugadores = []
+    turno_activo = True
 
     def __init__(self, tablero, jugadores):
         self.tablero = tablero
@@ -36,17 +37,24 @@ q = Queue()
 
 while(True):
 
-    turno_j1 = Thread(target=jugador1.jugarTurno, args=[partida,q])
-    turno_j1.start()
-    turno_j1.join()
+    while(partida.turno_activo):
+        turno_j1 = Thread(target=jugador1.jugarTurno, args=[partida,q])
+        turno_j1.start()
+        turno_j1.join()
+    
+        partida_mod = q.get()
+        partida = partida_mod
+    
+    partida.turno_activo = True
 
     
-    partida_mod = q.get()
-    partida = partida_mod
 
-    turno_j2 = Thread(target=jugador2.jugarTurno, args=[partida,q])
-    turno_j2.start()
-    turno_j2.join()
+    while(partida.turno_activo):
+        turno_j2 = Thread(target=jugador2.jugarTurno, args=[partida,q])
+        turno_j2.start()
+        turno_j2.join()
 
-    partida_mod = q.get()
-    partida = partida_mod
+        partida_mod = q.get()
+        partida = partida_mod
+        
+    partida.turno_activo = True

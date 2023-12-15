@@ -24,6 +24,16 @@ class Estacion(Casilla):
 
 
 class Suerte(Casilla):
-    def activarEfecto(jugador):
+    def activarEfecto(self, partida, id):
         cantidad = 100*randint(-10,10)
-        jugador.dinero += cantidad
+        if( cantidad > 0 ):
+            print("Te ganas unas pelillas! Recibes %i dolaritos." % cantidad)
+        else:
+            print("Te sale a pagar! Pierdes %i dolaritos." % abs(cantidad))
+
+        partida.actualizarDinero(id,cantidad)
+
+class Carcel(Casilla):
+    def activarEfecto(self, jugador):
+        pass
+

@@ -36,7 +36,9 @@ class Jugador_Humano(Jugador):
        
         tirada = Jugador.tirarDado(partida)
         
-        partida.moverJugador(self.id, tirada)
+        casilla = partida.moverJugador(self.id, tirada)
+
+        partida.tablero[casilla].activarEfecto(partida, self.id)
 
         queue.put(partida)
 

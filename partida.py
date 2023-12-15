@@ -24,6 +24,7 @@ class Partida:
             print("Has dado una vuelta al tablero. Recibes 400 dolaritos\n")
 
         print("La nueva posicion del jugador {} es {}\n".format(id+1,self.jugadores[id].posicion))
+        return self.jugadores[id].posicion
 
     def actualizarDinero(self, id, cantidad):
         if( cantidad > 0 ):

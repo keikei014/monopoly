@@ -11,8 +11,8 @@ class Jugador:
     carcel = 0
 
     def tirarDado(self, partida):
-        dado1 = randint(2,2)
-        dado2 = randint(4,4)
+        dado1 = randint(3,3)
+        dado2 = randint(3,3)
 
         dobles = False
         
@@ -43,7 +43,7 @@ class Jugador_Humano(Jugador):
         if(self.carcel == 0):
             casilla = partida.moverJugador(self.id, tirada)
             if( dobles ):
-                print("Doble %i! Has sacado dobles y tiras otra vez al final de tu turno.\n" % tirada/2)
+                print("Has sacado dobles!\n")
             partida.tablero[casilla].activarEfecto(partida, self.id)
         else:
             partida.manejarCarcel(self.id, tirada, dobles)
@@ -66,7 +66,7 @@ class Jugador_IA(Jugador):
         if(self.carcel == 0):
             casilla = partida.moverJugador(self.id, tirada)
             if( dobles ):
-                print("Doble %i! Has sacado dobles y tiras otra vez al final de tu turno.\n" % tirada/2)
+                print("Has sacado dobles!")
             partida.tablero[casilla].activarEfecto(partida, self.id)
         else:
             partida.manejarCarcel(self.id, tirada, dobles)

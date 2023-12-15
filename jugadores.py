@@ -5,6 +5,7 @@ class Jugador:
     nombre = None
     id = None
     posicion = 0
+    dinero = 2000
 
     def tirarDado(partida):
         dado1 = randint(1,2)
@@ -25,7 +26,13 @@ class Jugador_Humano(Jugador):
         self.id = id
 
     def jugarTurno(self,partida,queue):
-        accion = input("Pulsa Enter para tirar el dado...\n")
+        accion = None
+        while(accion != '1'):
+            print("Es tu turno! Qué quieres hacer?")
+            print("   1. Tirar el dado\n   2. Consultar dinero\n")
+            accion = input()
+            if( accion == '2' ):
+                print("Tienes %i dolaritos." % self.dinero)
        
         tirada = Jugador.tirarDado(partida)
         

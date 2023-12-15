@@ -17,9 +17,21 @@ class Partida:
         self.jugadores[id].posicion += dado
 
         if( self.jugadores[id].posicion > 8 ):
+            # cuando llega al final del tablero, empieza una nueva vuelta
             self.jugadores[id].posicion -= 9
+            # al pasar por la casilla de salida cobras
+            self.actualizarDinero(id, 400)
+            print("Has dado una vuelta al tablero. Recibes 400 dolaritos\n")
 
-        print("La nueva posicion del jugador {} es {}\n".format(id+1,self.jugadores[id].posicion))   
+        print("La nueva posicion del jugador {} es {}\n".format(id+1,self.jugadores[id].posicion))
+
+    def actualizarDinero(self, id, cantidad):
+        if( cantidad > 0 ):
+            print("Ganas %i dolaritos.\n" % cantidad)
+        else:
+            print("Pierdes %i dolaritos.\n" % cantidad)
+
+        self.jugadores[id].dinero += cantidad   
 
 
 # Crear jugadores
@@ -56,5 +68,5 @@ while(True):
 
         partida_mod = q.get()
         partida = partida_mod
-        
+
     partida.turno_activo = True

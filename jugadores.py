@@ -7,17 +7,22 @@ class Jugador:
     posicion = 0
     dinero = 2000
 
-    def tirarDado(partida):
-        dado1 = randint(1,2)
-        dado2 = randint(1,2)
+    # contador de carcel, se pone a 1 si un jugador entra en la carcel
+    carcel = 0
+
+    def tirarDado(self, partida):
+        dado1 = randint(3,3)
+        dado2 = randint(3,3)
+
+        dobles = False
         
         if(dado1 != dado2):
             partida.turno_activo = False
             print("Te han salido un {} y un {}!\n".format(dado1,dado2))
         else:
-            print("Doble %i! Has sacado dobles y tiras otra vez al final de tu turno.\n" % dado1)
+            dobles = True
         
-        return dado1+dado2
+        return dado1+dado2, dobles
 
 class Jugador_Humano(Jugador):
 
@@ -34,9 +39,14 @@ class Jugador_Humano(Jugador):
             if( accion == '2' ):
                 print("Tienes %i dolaritos." % self.dinero)
        
-        tirada = Jugador.tirarDado(partida)
-        
-        partida.moverJugador(self.id, tirada)
+        tirada, dobles = self.tirarDado(partida)
+        if(self.carcel == 0):
+            casilla = partida.moverJugador(self.id, tirada)
+            if( dobles ):
+                print("Has sacado dobles!\n")
+            partida.tablero[casilla].activarEfecto(partida, self.id)
+        else:
+            partida.manejarCarcel(self.id, tirada, dobles)
 
         queue.put(partida)
 
@@ -52,7 +62,13 @@ class Jugador_IA(Jugador):
         sleep(3.0)
         print("El jugador %i ha tirado el dado!\n" % self.id)
 
-        tirada = Jugador.tirarDado(partida)
-        partida.moverJugador(self.id, tirada)
+        tirada, dobles = self.tirarDado(partida)
+        if(self.carcel == 0):
+            casilla = partida.moverJugador(self.id, tirada)
+            if( dobles ):
+                print("Has sacado dobles!")
+            partida.tablero[casilla].activarEfecto(partida, self.id)
+        else:
+            partida.manejarCarcel(self.id, tirada, dobles)
 
         queue.put(partida)

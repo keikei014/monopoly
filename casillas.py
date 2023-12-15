@@ -33,7 +33,12 @@ class Suerte(Casilla):
 
         partida.actualizarDinero(id,cantidad)
 
+class AlaCarcel(Casilla):
+    def activarEfecto(self, partida, id):
+        partida.encarcelarJugador(id)
+        print("A la carcel!")
+
 class Carcel(Casilla):
-    def activarEfecto(self, jugador):
-        pass
+    def activarEfecto(self, partida, id):
+        print("Has caido en la cárcel, pero solo de visita")
 

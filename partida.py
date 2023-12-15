@@ -1,8 +1,8 @@
 from threading import Thread
 from queue import Queue
 from random import randint
-from casillas import Suerte
-from jugadores import Jugador_Humano, Jugador_IA     
+from casillas import Suerte, AlaCarcel
+from jugadores import Jugador, Jugador_Humano, Jugador_IA     
 
 class Partida:
     tablero = []
@@ -32,7 +32,23 @@ class Partida:
         else:
             print("Pierdes %i dolaritos.\n" % cantidad)
 
-        self.jugadores[id].dinero += cantidad   
+        self.jugadores[id].dinero += cantidad
+
+    def encarcelarJugador(self, id):
+        self.jugadores[id].posicion = 2
+        self.jugadores[id].carcel = 1
+        self.turno_activo = False
+
+    def manejarCarcel(self, id, cantidad, dobles):
+        if( dobles ):
+            self.moverJugador(id, cantidad)
+            print("Has sacado dobles y sales de la cárcel!")
+        else:
+            self.jugadores[id].carcel += 1
+            print("No has podido salir de la cárcel!")
+            if(self.jugadores[id].carcel == 3):
+                self.jugadores[id].carcel = 0
+                print("Has cumplido tu condena. El siguiente turno tiras normalmente.")
 
 
 # Crear jugadores
@@ -42,6 +58,7 @@ jugadores = [jugador1, jugador2]
 
 # Inicializar tablero
 tablero = [Suerte()]*9
+tablero[6] = AlaCarcel()
 
 # Crear la partida
 partida = Partida(tablero, jugadores)

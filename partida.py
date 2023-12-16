@@ -1,7 +1,7 @@
 from threading import Thread
 from queue import Queue
 from random import randint
-from casillas import Suerte, AlaCarcel
+from casillas import Suerte, AlaCarcel, Carcel, Estacion
 from jugadores import Jugador, Jugador_Humano, Jugador_IA     
 
 class Partida:
@@ -16,9 +16,9 @@ class Partida:
     def moverJugador(self, id, dado):
         self.jugadores[id].posicion += dado
 
-        if( self.jugadores[id].posicion > 8 ):
+        if( self.jugadores[id].posicion > 7 ):
             # cuando llega al final del tablero, empieza una nueva vuelta
-            self.jugadores[id].posicion -= 9
+            self.jugadores[id].posicion -= 8
             # al pasar por la casilla de salida cobras
             self.actualizarDinero(id, 400)
             print("Has dado una vuelta al tablero. Recibes 400 dolaritos\n")
@@ -28,9 +28,9 @@ class Partida:
 
     def actualizarDinero(self, id, cantidad):
         if( cantidad > 0 ):
-            print("Ganas %i dolaritos.\n" % cantidad)
+            print("Jugador {}, ganas {} dolaritos.\n".format(id+1,cantidad))
         else:
-            print("Pierdes %i dolaritos.\n" % cantidad)
+            print("Jugador {}, pierdes {} dolaritos.\n".format(id+1,abs(cantidad)))
 
         self.jugadores[id].dinero += cantidad
 
@@ -49,6 +49,17 @@ class Partida:
             if(self.jugadores[id].carcel == 3):
                 self.jugadores[id].carcel = 0
                 print("Has cumplido tu condena. El siguiente turno tiras normalmente.")
+    
+    def adquirirPropiedad(self, casillaId, jugadorId):
+        self.jugadores[jugadorId].dinero -= self.tablero[casillaId].precio
+        self.jugadores[jugadorId].propiedades.añadirEstacion(casillaId)
+        self.tablero[casillaId].propietario = jugadorId
+        print("Has adquirido la propiedad! Te quedan %i dolaritos." % self.jugadores[jugadorId].dinero)
+
+    def pagarAlquiler(self, propietarioId, jugadorId, cantidad):
+        self.actualizarDinero(propietarioId, cantidad)
+        self.actualizarDinero(jugadorId,-cantidad)
+
 
 
 # Crear jugadores
@@ -57,8 +68,15 @@ jugador2 = Jugador_IA("J2", 1)
 jugadores = [jugador1, jugador2]
 
 # Inicializar tablero
-tablero = [Suerte()]*9
-tablero[6] = AlaCarcel()
+tablero = [Suerte("init", 0)]*8
+tablero[0] = Suerte("Suerte0", 0)
+tablero[4] = Suerte("Suerte4", 4)
+tablero[6] = AlaCarcel("AlaCarcel", 6)
+tablero[2] = Carcel("Carcel", 2)
+tablero[1] = Estacion("E1", 1)
+tablero[3] = Estacion("E2", 3)
+tablero[5] = Estacion("E3", 5)
+tablero[7] = Estacion("E4", 7)
 
 # Crear la partida
 partida = Partida(tablero, jugadores)

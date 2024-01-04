@@ -2,27 +2,20 @@ from random import randint
 from time import sleep
 
 class Propiedades:
-    calles = []
-    estaciones = []
-    servicios = []
 
     def __init__(self):
         pass
 
-    def añadirCalle(self, id):
-        self.calles.append(id)
 
-    def añadirEstacion(self, id):
-        self.estaciones.append(id)
-
-    def añadirServicio(self, id):
-        self.servicios.append(id)
 
 class Jugador:
     nombre = None
     id = None
     posicion = 0
     dinero = 2000
+    calles = []
+    estaciones = []
+    servicios = []
 
     # contador de carcel, se pone a 1 si un jugador entra en la carcel
     carcel = 0
@@ -40,12 +33,20 @@ class Jugador:
             dobles = True
         
         return dado1+dado2, dobles
+    
+    def añadirCalle(self, id):
+        self.calles.append(id)
+
+    def añadirEstacion(self, id):
+        self.estaciones.append(id)
+
+    def añadirServicio(self, id):
+        self.servicios.append(id)
 
 
 
 class Jugador_Humano(Jugador):
-    propiedades = Propiedades()
-
+    
     def __init__(self, nombre, id):
         self.nombre = nombre
         self.id = id
@@ -71,8 +72,7 @@ class Jugador_Humano(Jugador):
         queue.put(partida)
 
 class Jugador_IA(Jugador):
-    propiedades = Propiedades()
-
+    
     def __init__(self, nombre, id):
         self.nombre = nombre
         self.id = id

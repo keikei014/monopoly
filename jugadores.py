@@ -2,11 +2,19 @@ from random import randint
 from time import sleep
 
 class Propiedades:
-
     def __init__(self):
-        pass
+        self.calles = []
+        self.estaciones = []
+        self.servicios = []
 
+    def añadirCalle(self, id):
+        self.calles.append(id)
 
+    def añadirEstacion(self, id):
+        self.estaciones.append(id)
+
+    def añadirServicio(self, id):
+        self.servicios.append(id)
 
 class Jugador:
     nombre = None

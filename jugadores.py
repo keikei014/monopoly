@@ -1,6 +1,21 @@
 from random import randint
 from time import sleep
 
+class Propiedades:
+    def __init__(self):
+        self.calles = []
+        self.estaciones = []
+        self.servicios = []
+
+    def añadirCalle(self, id):
+        self.calles.append(id)
+
+    def añadirEstacion(self, id):
+        self.estaciones.append(id)
+
+    def añadirServicio(self, id):
+        self.servicios.append(id)
+
 class Jugador:
     nombre = None
     id = None
@@ -11,8 +26,8 @@ class Jugador:
     carcel = 0
 
     def tirarDado(self, partida):
-        dado1 = randint(3,3)
-        dado2 = randint(3,3)
+        dado1 = randint(1,3)
+        dado2 = randint(1,3)
 
         dobles = False
         
@@ -23,12 +38,24 @@ class Jugador:
             dobles = True
         
         return dado1+dado2, dobles
+    
+    def añadirCalle(self, id):
+        self.calles.append(id)
+
+    def añadirEstacion(self, id):
+        self.estaciones.append(id)
+
+    def añadirServicio(self, id):
+        self.servicios.append(id)
+
+
 
 class Jugador_Humano(Jugador):
-
+    
     def __init__(self, nombre, id):
         self.nombre = nombre
         self.id = id
+        self.propiedades = Propiedades()
 
     def jugarTurno(self,partida,queue):
         accion = None
@@ -51,16 +78,17 @@ class Jugador_Humano(Jugador):
         queue.put(partida)
 
 class Jugador_IA(Jugador):
-
+    
     def __init__(self, nombre, id):
         self.nombre = nombre
         self.id = id
+        self.propiedades = Propiedades()
 
     def jugarTurno(self,partida,queue):
 
-        print("El jugador %i se lo está pensando...\n" % self.id)
+        print("El jugador %i se lo está pensando...\n" % (self.id+1))
         sleep(3.0)
-        print("El jugador %i ha tirado el dado!\n" % self.id)
+        print("El jugador %i ha tirado el dado!\n" % (self.id+1))
 
         tirada, dobles = self.tirarDado(partida)
         if(self.carcel == 0):

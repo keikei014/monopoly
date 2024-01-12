@@ -14,7 +14,7 @@ class Partida:
 
         if( self.jugadores[id].posicion > 7 ):
             # cuando llega al final del tablero, empieza una nueva vuelta
-            self.jugadores[id].posicion -= 8
+            self.jugadores[id].posicion -= len(self.tablero)
             # al pasar por la casilla de salida cobras
             self.actualizarDinero(id, 400)
             print("Has dado una vuelta al tablero. Recibes 400 dolaritos\n")
@@ -47,9 +47,15 @@ class Partida:
                 self.jugadores[id].carcel = 0
                 print("Has cumplido tu condena. El siguiente turno tiras normalmente.")
     
-    def adquirirPropiedad(self, casillaId, jugadorId):
+    def adquirirEstacion(self, casillaId, jugadorId):
         self.jugadores[jugadorId].dinero -= self.tablero[casillaId].precio
         self.jugadores[jugadorId].propiedades.añadirEstacion(casillaId)
+        self.tablero[casillaId].propietario = jugadorId
+        print("Has adquirido la propiedad! Te quedan %i dolaritos." % self.jugadores[jugadorId].dinero)
+
+    def adquirirCalle(self, casillaId, jugadorId):
+        self.jugadores[jugadorId].dinero -= self.tablero[casillaId].precio
+        self.jugadores[jugadorId].propiedades.añadirCalle(casillaId)
         self.tablero[casillaId].propietario = jugadorId
         print("Has adquirido la propiedad! Te quedan %i dolaritos." % self.jugadores[jugadorId].dinero)
 

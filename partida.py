@@ -38,6 +38,7 @@ class Partida:
     def manejarCarcel(self, id, cantidad, dobles):
         if( dobles ):
             self.moverJugador(id, cantidad)
+            self.jugadores[id].carcel = 0
             print("Has sacado dobles y sales de la cárcel!")
         else:
             self.jugadores[id].carcel += 1

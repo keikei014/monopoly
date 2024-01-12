@@ -79,7 +79,7 @@ class Jugador_Humano(Jugador):
         accion = None
         while(accion != '1'):
             print("Es tu turno! Qué quieres hacer?")
-            print("   1. Tirar el dado\n   2. Consultar dinero\n   3. Hipotecar propiedad\n")
+            print("   1. Tirar el dado\n   2. Consultar dinero\n   3. Hipotecar propiedad\n   4. Poner casas\n")
             accion = input()
             if( accion == '2' ):
                 print("Tienes %i dolaritos." % self.dinero)

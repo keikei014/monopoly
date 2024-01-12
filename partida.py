@@ -90,3 +90,12 @@ class Partida:
             for estacion in self.jugadores[jugadorId].propiedades.estaciones:
                 print("{n}. Nombre: {name}\n   Estacion: {num}\n   Hipoteca: {price}\n\n".format(n=i,name=self.tablero[estacion].nombre, num=self.tablero[estacion].id, price=(self.tablero[estacion].precio/2)))
                 i += 1
+
+    def añadirCasa(self,jugadorId,casillaId,cantidad):
+        if( self.tablero[casillaId].nCasas == 5):
+            print("Esta casilla ya tiene un hotel. No puedes poner mas casas.")
+        elif((self.tablero[casillaId].nCasas-cantidad) <= 5):
+            self.tablero[casillaId].nCasas += cantidad
+            self.jugadores[jugadorId].dinero -= cantidad*self.tablero[casillaId].precioCasa
+        else:
+            print("No puedes poner tantas casas!\nPuedes poner %i en esta casilla\n" % (5-self.tablero[casillaId].nCasas))

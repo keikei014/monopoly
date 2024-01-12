@@ -26,6 +26,7 @@ class Calle(Casilla):
         self.alquiler = alquiler
         self.propietario = None
         self.nCasas = 0
+        self.precioCasa = precio/2
 
     def activarEfecto(self, partida, id):
         if( self.propietario == None ):

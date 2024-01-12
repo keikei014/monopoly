@@ -33,7 +33,7 @@ class Estacion(Casilla):
                 print("Has decidido no comprar la estacion...")
         else:
             print("Esta estacion tiene dueño. Tienes que pagar una renta.")
-            nEstaciones = len(partida.jugadores[self.propietario].estaciones)
+            nEstaciones = len(partida.jugadores[self.propietario].propiedades.estaciones)
             cantidad = self.alquiler[nEstaciones-1]
             partida.pagarAlquiler(self.propietario, id, cantidad)
 

@@ -48,7 +48,7 @@ class Partida:
     
     def adquirirPropiedad(self, casillaId, jugadorId):
         self.jugadores[jugadorId].dinero -= self.tablero[casillaId].precio
-        self.jugadores[jugadorId].estaciones.append(casillaId)
+        self.jugadores[jugadorId].propiedades.añadirEstacion(casillaId)
         self.tablero[casillaId].propietario = jugadorId
         print("Has adquirido la propiedad! Te quedan %i dolaritos." % self.jugadores[jugadorId].dinero)
 

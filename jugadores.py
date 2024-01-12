@@ -21,9 +21,6 @@ class Jugador:
     id = None
     posicion = 0
     dinero = 2000
-    calles = []
-    estaciones = []
-    servicios = []
 
     # contador de carcel, se pone a 1 si un jugador entra en la carcel
     carcel = 0
@@ -58,6 +55,7 @@ class Jugador_Humano(Jugador):
     def __init__(self, nombre, id):
         self.nombre = nombre
         self.id = id
+        self.propiedades = Propiedades()
 
     def jugarTurno(self,partida,queue):
         accion = None
@@ -84,6 +82,7 @@ class Jugador_IA(Jugador):
     def __init__(self, nombre, id):
         self.nombre = nombre
         self.id = id
+        self.propiedades = Propiedades()
 
     def jugarTurno(self,partida,queue):
 

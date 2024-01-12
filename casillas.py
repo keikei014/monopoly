@@ -31,11 +31,13 @@ class Estacion(Casilla):
                 partida.adquirirPropiedad(self.id, id)
             else:
                 print("Has decidido no comprar la estacion...")
-        else:
+        elif( self.propietario != id):
             print("Esta estacion tiene dueño. Tienes que pagar una renta.")
             nEstaciones = len(partida.jugadores[self.propietario].propiedades.estaciones)
             cantidad = self.alquiler[nEstaciones-1]
             partida.pagarAlquiler(self.propietario, id, cantidad)
+        else:
+            print("Estas en una propiedad que te pertenece...")
 
 
 class Suerte(Casilla):

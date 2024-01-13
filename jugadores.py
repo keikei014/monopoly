@@ -15,6 +15,15 @@ class Propiedades:
 
     def añadirServicio(self, id):
         self.servicios.append(id)
+    
+    def eliminarCalle(self, id):
+        self.calles.remove(id)
+
+    def eliminarEstacion(self, id):
+        self.estaciones.remove(id)
+
+    def eliminarServicio(self, id):
+        self.servicios.remove(id)
 
 class Jugador:
     nombre = None
@@ -38,15 +47,6 @@ class Jugador:
             dobles = True
         
         return dado1+dado2, dobles
-    
-    def añadirCalle(self, id):
-        self.calles.append(id)
-
-    def añadirEstacion(self, id):
-        self.estaciones.append(id)
-
-    def añadirServicio(self, id):
-        self.servicios.append(id)
 
 
 
@@ -61,10 +61,14 @@ class Jugador_Humano(Jugador):
         accion = None
         while(accion != '1'):
             print("Es tu turno! Qué quieres hacer?")
-            print("   1. Tirar el dado\n   2. Consultar dinero\n")
+            print("   1. Tirar el dado\n   2. Consultar dinero\n   3. Hipotecar propiedad\n   4. Poner casas\n")
             accion = input()
             if( accion == '2' ):
                 print("Tienes %i dolaritos." % self.dinero)
+            elif( accion == '3' ):
+                self.venderProp(partida)
+            elif( accion == '4' ):
+                self.ponerCasa(partida)
        
         tirada, dobles = self.tirarDado(partida)
         if(self.carcel == 0):
@@ -76,6 +80,51 @@ class Jugador_Humano(Jugador):
             partida.manejarCarcel(self.id, tirada, dobles)
 
         queue.put(partida)
+    
+    def venderProp(self, partida):
+        print("¿Qué quieres vender?\n   1. Calle\n   2. Estacion\n")
+        accion = input()
+        if(accion == '1'):
+            partida.printCalles(self.id)
+            print("¿Qué calle quieres vender? Pulsa '0' para volver.\n")
+            accion = input()
+            while( (int(accion) > len(self.propiedades.calles)) and (accion != '0') ):
+                print("Numero de calle no valido...\nVuelve a introducir un numero o pulsa 'B' para volver:")
+                accion = input()
+
+            if(accion == '0'):
+                print("Has decidido no vender nada.")
+            else:
+                print("Has vendido la calle {0} por {1} dolaritos.".format(partida.tablero[self.propiedades.calles[int(accion)-1]].nombre,(partida.tablero[self.propiedades.calles[int(accion)-1]].precio/2)))
+                partida.venderCalle(self.propiedades.calles[int(accion)-1], self.id)
+                
+        else:
+            partida.printEstaciones(self.id)
+            print("¿Qué estacion quieres vender? Pulsa '0' para volver.\n")
+            accion = input()
+            while( (int(accion) > len(self.propiedades.estaciones)) and (accion != '0') ):
+                print("Numero de estacion no valido...\nVuelve a introducir un numero o pulsa 'B' para volver:")
+                accion = input()
+
+            if(accion == '0'):
+                print("Has decidido no vender nada.")
+            else:
+                print("Has vendido la estacion {0} por {1} dolaritos.".format(partida.tablero[self.propiedades.estaciones[int(accion)-1]].nombre,(partida.tablero[self.propiedades.estaciones[int(accion)-1]].precio/2)))
+                partida.venderEstacion(self.propiedades.estaciones[int(accion)-1], self.id)      
+    
+    def ponerCasa(self, partida):
+        print("¿Sobre qué calle quieres edificar? Pulsa '0' para volver.\n")
+        partida.printCalles(self.id)
+        accion = input()
+        while( (int(accion) > len(self.propiedades.calles)) and (accion != '0') ):
+            print("Numero de calle no valido...\nVuelve a introducir un numero o pulsa 'B' para volver:")
+            accion = input()
+        if(accion == '0'):
+            print("Has decidido no construir.")
+        else:
+            print("Cada casa te cuesta %i dolaritos. ¿Cuántas quieres construir? (1-5)" % (partida.tablero[self.propiedades.calles[int(accion)-1]].precio/2))
+            cantidad = int(input())
+            partida.añadirCasa(self.id, self.propiedades.calles[int(accion)-1], cantidad)
 
 class Jugador_IA(Jugador):
     

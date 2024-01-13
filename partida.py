@@ -94,7 +94,7 @@ class Partida:
     def añadirCasa(self,jugadorId,casillaId,cantidad):
         if( self.tablero[casillaId].nCasas == 5):
             print("Esta casilla ya tiene un hotel. No puedes poner mas casas.")
-        elif((self.tablero[casillaId].nCasas-cantidad) <= 5):
+        elif((self.tablero[casillaId].nCasas+cantidad) <= 5):
             self.tablero[casillaId].nCasas += cantidad
             self.jugadores[jugadorId].dinero -= cantidad*self.tablero[casillaId].precioCasa
         else:

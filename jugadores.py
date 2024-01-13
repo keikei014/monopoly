@@ -25,24 +25,6 @@ class Propiedades:
     def eliminarServicio(self, id):
         self.servicios.remove(id)
 
-    # def printCalles(self):
-    #     i = 1
-    #     if( len(self.calles) == 0):
-    #         print("No tienes ninguna calle!\n")
-    #     else:
-    #         for calle in self.calles:
-    #             print("{n}. Nombre: {name}\n   Barrio: {hood}\n   Hipoteca: {price}\n\n".format(n=i,name=calle.nombre, hood=calle.barrio, price=(calle.precio/2)))
-    #             i += 1
-
-    # def printEstaciones(self):
-    #     i = 1
-    #     if( len(self.calles) == 0):
-    #         print("No tienes ninguna estacion!\n")
-    #     else:
-    #         for estacion in self.estaciones:
-    #             print("{}. Nombre: {}\n   Estacion nº: {}\n\n".format(i,estacion.nombre, (estacion.id+1), (estacion.precio/2)))
-    #             i += 1
-
 class Jugador:
     nombre = None
     id = None
@@ -85,6 +67,8 @@ class Jugador_Humano(Jugador):
                 print("Tienes %i dolaritos." % self.dinero)
             elif( accion == '3' ):
                 self.venderProp(partida)
+            elif( accion == '4' ):
+                self.ponerCasa(partida)
        
         tirada, dobles = self.tirarDado(partida)
         if(self.carcel == 0):
@@ -127,7 +111,20 @@ class Jugador_Humano(Jugador):
             else:
                 print("Has vendido la estacion {0} por {1} dolaritos.".format(partida.tablero[self.propiedades.estaciones[int(accion)-1]].nombre,(partida.tablero[self.propiedades.estaciones[int(accion)-1]].precio/2)))
                 partida.venderEstacion(self.propiedades.estaciones[int(accion)-1], self.id)      
-
+    
+    def ponerCasa(self, partida):
+        print("¿Sobre qué calle quieres edificar? Pulsa '0' para volver.\n")
+        partida.printCalles(self.id)
+        accion = input()
+        while( (int(accion) > len(self.propiedades.calles)) and (accion != '0') ):
+            print("Numero de calle no valido...\nVuelve a introducir un numero o pulsa 'B' para volver:")
+            accion = input()
+        if(accion == '0'):
+            print("Has decidido no construir.")
+        else:
+            print("Cada casa te cuesta %i dolaritos. ¿Cuántas quieres construir? (1-5)" % (partida.tablero[self.propiedades.calles[int(accion)-1]].precio/2))
+            cantidad = int(input())
+            partida.añadirCasa(self.id, self.propiedades.calles[int(accion)-1], cantidad)
 
 class Jugador_IA(Jugador):
     

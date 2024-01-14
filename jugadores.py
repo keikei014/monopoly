@@ -29,7 +29,8 @@ class Jugador:
     nombre = None
     id = None
     posicion = 0
-    dinero = 2000
+    dinero = 10
+    arruinado = False
 
     # contador de carcel, se pone a 1 si un jugador entra en la carcel
     carcel = 0
@@ -47,8 +48,6 @@ class Jugador:
             dobles = True
         
         return dado1+dado2, dobles
-
-
 
 class Jugador_Humano(Jugador):
     

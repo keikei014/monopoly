@@ -1,13 +1,18 @@
-from random import randint 
+from random import randint
 
 class Partida:
     tablero = []
     jugadores = []
     turno_activo = True
+    nJugadores = 0
+    jugadores_activos = []
 
     def __init__(self, tablero, jugadores):
         self.tablero = tablero
         self.jugadores = jugadores
+        self.nJugadores = len(jugadores)
+        for jugador in jugadores:
+            self.jugadores_activos.append(jugador.id)
 
     def moverJugador(self, id, dado):
         self.jugadores[id].posicion += dado
@@ -29,6 +34,8 @@ class Partida:
             print("Jugador {}, pierdes {} dolaritos.\n".format(id+1,abs(cantidad)))
 
         self.jugadores[id].dinero += cantidad
+        if(self.jugadores[id].dinero < 0):
+            self.declararBancarrota(id)
 
     def encarcelarJugador(self, id):
         self.jugadores[id].posicion = 2
@@ -48,24 +55,24 @@ class Partida:
                 print("Has cumplido tu condena. El siguiente turno tiras normalmente.")
     
     def adquirirEstacion(self, casillaId, jugadorId):
-        self.jugadores[jugadorId].dinero -= self.tablero[casillaId].precio
+        self.actualizarDinero(jugadorId, -(self.tablero[casillaId].precio))
         self.jugadores[jugadorId].propiedades.añadirEstacion(casillaId)
         self.tablero[casillaId].propietario = jugadorId
         print("Has adquirido la propiedad! Te quedan %i dolaritos." % self.jugadores[jugadorId].dinero)
 
     def venderEstacion(self, casillaId, jugadorId):
-        self.jugadores[jugadorId].dinero += self.tablero[casillaId].precio/2
+        self.actualizarDinero(jugadorId,(self.tablero[casillaId].precio/2))
         self.jugadores[jugadorId].propiedades.eliminarEstacion(casillaId)
         self.tablero[casillaId].propietario = None
 
     def adquirirCalle(self, casillaId, jugadorId):
-        self.jugadores[jugadorId].dinero -= self.tablero[casillaId].precio
+        self.actualizarDinero(jugadorId, -(self.tablero[casillaId].precio))
         self.jugadores[jugadorId].propiedades.añadirCalle(casillaId)
         self.tablero[casillaId].propietario = jugadorId
         print("Has adquirido la propiedad! Te quedan %i dolaritos." % self.jugadores[jugadorId].dinero)
 
     def venderCalle(self, casillaId, jugadorId):
-        self.jugadores[jugadorId].dinero += self.tablero[casillaId].precio/2
+        self.actualizarDinero(jugadorId,(self.tablero[casillaId].precio/2))
         self.jugadores[jugadorId].propiedades.eliminarCalle(casillaId)
         self.tablero[casillaId].propietario = None
 
@@ -96,6 +103,13 @@ class Partida:
             print("Esta casilla ya tiene un hotel. No puedes poner mas casas.")
         elif((self.tablero[casillaId].nCasas+cantidad) <= 5):
             self.tablero[casillaId].nCasas += cantidad
-            self.jugadores[jugadorId].dinero -= cantidad*self.tablero[casillaId].precioCasa
+            self.actualizarDinero(jugadorId, -(cantidad*self.tablero[casillaId].precioCasa))
         else:
             print("No puedes poner tantas casas!\nPuedes poner %i en esta casilla\n" % (5-self.tablero[casillaId].nCasas))
+
+    def declararBancarrota(self, jugadorId):
+        self.jugadores[jugadorId].arruinado = True
+        self.jugadores_activos.remove(jugadorId)
+        print("Jugador %i, estas en la ruina! Ya no juegas mas." % (jugadorId+1))
+        self.nJugadores -= 1
+        self.turno_activo = False

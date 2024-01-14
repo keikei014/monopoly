@@ -2,18 +2,28 @@ from partida import Partida
 from threading import Thread
 from queue import Queue
 from casillas import Suerte, AlaCarcel, Carcel, Estacion, Inicio, Calle
-from jugadores import Jugador_IA    
+from jugadores import Jugador, Jugador_Humano, Jugador_IA    
 
 # Crear jugadores
 
-
-
-jugador1 = Jugador_IA("Jugador1", 0)
-jugador2 = Jugador_IA("Jugador2", 1)
-jugador3= Jugador_IA("Jugador3", 2)
-jugador4 = Jugador_IA("Jugador4", 3)
-jugadores = [jugador1, jugador2, jugador3, jugador4]
-    
+print("¿Cuántos jugadores? (2-4)")
+nJugadores = int(input())
+jugadores = []
+for i in range(0,nJugadores):
+    print("¿De qué clase es el jugador %i?\n   1. Jugador humano\n   2. IA fácil\n   3. IA normal\n   4. IA fuzzy\n" % (i+1))
+    tipo = int(input())
+    if(tipo == 1):
+        jugador = Jugador_Humano("Jugador1", i)
+        jugadores.append(jugador)
+    elif(tipo == 2):
+        jugador = Jugador_IA("Jugador2", i)
+        jugadores.append(jugador)
+    elif(tipo == 3):
+        jugador = Jugador_IA("Jugador3", i)
+        jugadores.append(jugador)
+    else:
+        jugador = Jugador_IA("Jugador4", i)
+        jugadores.append(jugador)
 
 # Inicializar tablero
 tablero = [Suerte("init", 0)]*24

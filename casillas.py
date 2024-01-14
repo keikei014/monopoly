@@ -16,6 +16,9 @@ class Inicio(Casilla):
         self.nombre = nombre
         self.id = id
 
+    def activarEfecto(self, partida, id):
+        print("Estas en la casilla de inicio.")
+
 class Calle(Casilla):
 
     def __init__(self, nombre, id, barrio, precio, alquiler):
@@ -31,12 +34,12 @@ class Calle(Casilla):
     def activarEfecto(self, partida, id):
         if( self.propietario == None ):
             print("Esta calle no tiene dueño. La compras por %i dolaritos? (Y/N)" % self.precio)
-            accion = input()
+            accion = input() 
             if( accion == 'Y'):
                 partida.adquirirCalle(self.id, id)
             else:
                 print("Has decidido no comprar la calle...")
-        elif( self.propietario != id):
+        elif( self.propietario != id ):
             print("Esta calle tiene dueño! Tienes que pagar renta.")
             cantidad = self.alquiler[self.nCasas]
             partida.pagarAlquiler(self.propietario, id, cantidad)

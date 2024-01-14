@@ -5,9 +5,25 @@ from casillas import Suerte, AlaCarcel, Carcel, Estacion, Inicio, Calle
 from jugadores import Jugador, Jugador_Humano, Jugador_IA    
 
 # Crear jugadores
-jugador1 = Jugador_Humano("J1", 0)
-jugador2 = Jugador_IA("J2", 1)
-jugadores = [jugador1, jugador2]
+
+print("¿Cuántos jugadores? (2-4)")
+nJugadores = int(input())
+jugadores = []
+for i in range(0,nJugadores):
+    print("¿De qué clase es el jugador %i?\n   1. Jugador humano\n   2. IA fácil\n   3. IA normal\n   4. IA fuzzy\n" % (i+1))
+    tipo = int(input())
+    if(tipo == 1):
+        jugador = Jugador_Humano("Jugador1", i)
+        jugadores.append(jugador)
+    elif(tipo == 2):
+        jugador = Jugador_IA("Jugador2", i)
+        jugadores.append(jugador)
+    elif(tipo == 3):
+        jugador = Jugador_IA("Jugador3", i)
+        jugadores.append(jugador)
+    else:
+        jugador = Jugador_IA("Jugador4", i)
+        jugadores.append(jugador)
 
 # Inicializar tablero
 tablero = [Suerte("init", 0)]*24
@@ -26,7 +42,7 @@ tablero[11] = Calle("La Muela", 11, 1, 120, [25, 50, 85, 110, 170, 240])
 tablero[12] = Suerte("SuerteParking", 12)
 tablero[13] = Calle("Teatinos", 13, 2, 150, [40, 70, 100, 150, 210, 300])
 tablero[14] = Calle("Trinidad", 14, 2, 150, [40, 70, 100, 150, 210, 300])
-tablero[15] = Estacion("VictorSanchezdelNabo", 15)
+tablero[15] = Estacion("VictorSanchezdelAmo", 15)
 tablero[16] = Suerte("Suerte3", 16)
 tablero[17] = Calle("Victoria", 17, 2, 200, [55, 90, 120, 180, 250, 360])
 tablero[18] = AlaCarcel("Enchironao", 18)
@@ -41,26 +57,21 @@ partida = Partida(tablero, jugadores)
 
 q = Queue()
 
-while(True):
+while(partida.nJugadores > 1):
 
-    while(partida.turno_activo):
-        turno_j1 = Thread(target=jugador1.jugarTurno, args=[partida,q])
-        turno_j1.start()
-        turno_j1.join()
-    
-        partida_mod = q.get()
-        partida = partida_mod
-    
-    partida.turno_activo = True
+    for jugador in partida.jugadores:
+        if(jugador.arruinado == False):
+            while(partida.turno_activo):
+                turno = Thread(target=jugador.jugarTurno, args=[partida,q])
+                turno.start()
+                turno.join()
+            
+                partida_mod = q.get()
+                partida = partida_mod
+            
+            partida.turno_activo = True
+        
+        if( partida.nJugadores == 1 ):
+            break
 
-    
-
-    while(partida.turno_activo):
-        turno_j2 = Thread(target=jugador2.jugarTurno, args=[partida,q])
-        turno_j2.start()
-        turno_j2.join()
-
-        partida_mod = q.get()
-        partida = partida_mod
-
-    partida.turno_activo = True
+print("Se acabó! El ganador es el jugador %i!\n" % (partida.jugadores_activos[0]+1))

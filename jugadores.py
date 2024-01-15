@@ -212,7 +212,6 @@ class Jugador_Fuzzy(Jugador):
             partida.añadirCasa(self.id, self.propiedades.calles[int(calle_maximo)], cantidad)
 
 class Jugador_IA(Jugador):
-      
     
     def __init__(self, nombre, id):
         self.nombre = nombre
@@ -233,7 +232,7 @@ class Jugador_IA(Jugador):
         else:
             partida.manejarCarcel(self.id, tirada, dobles)
                
-        self.evaluarCasilla(partida, casilla)
+        self.evaluarCasilla(partida, partida.jugadores[self.id].posicion)
             
         queue.put(partida)
         
@@ -333,7 +332,7 @@ class Jugador_IAlisto(Jugador):
         else:
             partida.manejarCarcel(self.id, tirada, dobles)
                
-        self.evaluarCasilla(partida, casilla)
+        self.evaluarCasilla(partida, partida.jugadores[self.id].posicion)
             
         queue.put(partida)
         

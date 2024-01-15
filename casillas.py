@@ -1,6 +1,5 @@
 from random import randint
 from fuzzy import comprar_calle_fuzzy, comprar_estaciones_fuzzy
-from jugadores import Jugador, Jugador_Humano, Jugador_Fuzzy
 
 class Casilla:
     nombre = None

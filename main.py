@@ -112,6 +112,6 @@ df.to_excel('resultados.xlsx',sheet_name='estaciones',index=False)
 df = DataFrame({'Jugador 1': calles_j1, 'Jugador 2': calles_j2, 'Jugador 3': calles_j3})
 df.to_excel('resultados.xlsx',sheet_name='calles',index=False)
 df = DataFrame({'Jugador 1': casas_j1, 'Jugador 2': casas_j2, 'Jugador 3': casas_j3})
-df.to_excel('resultados.xlsx',sheet_name='calles',index=False)
+df.to_excel('resultados.xlsx',sheet_name='casas',index=False)
 
 print("Se acabó! El ganador es el jugador %i!\n" % (partida.jugadores_activos[0]+1))

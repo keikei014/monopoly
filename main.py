@@ -91,27 +91,27 @@ while(partida.nJugadores > 1):
     calles_j2.append(len(partida.jugadores[1].propiedades.calles))
     calles_j3.append(len(partida.jugadores[2].propiedades.calles))
 
-    casas = 0
-    for calle in partida.jugadores[0].propiedades.calles:
-        casas += calle.nCasas
-    casas_j1.append(casas)
-    casas = 0
-    for calle in partida.jugadores[1].propiedades.calles:
-        casas += calle.nCasas
-    casas_j2.append(casas)
-    casas = 0
-    for calle in partida.jugadores[2].propiedades.calles:
-        casas += calle.nCasas
-    casas_j3.append(casas)
+    for i, jugador in enumerate(partida.jugadores):
+        casas = 0
+        for id_calle in jugador.propiedades.calles:
+            objeto_calle = partida.tablero[id_calle]
+            casas += objeto_calle.nCasas  
+
+        if i == 0:
+            casas_j1.append(casas)
+        elif i == 1:
+            casas_j2.append(casas)
+        elif i == 2:
+            casas_j3.append(casas)
     
     
 df = DataFrame({'Jugador 1': dinero_j1, 'Jugador 2': dinero_j2, 'Jugador 3': dinero_j3})
-df.to_excel('resultados.xlsx',sheet_name='dinero',index=False)
+df.to_excel('dinero.xlsx',sheet_name='dinero',index=False)
 df = DataFrame({'Jugador 1': est_j1, 'Jugador 2': est_j2, 'Jugador 3': est_j3})
-df.to_excel('resultados.xlsx',sheet_name='estaciones',index=False)
+df.to_excel('estaciones.xlsx',sheet_name='estaciones',index=False)
 df = DataFrame({'Jugador 1': calles_j1, 'Jugador 2': calles_j2, 'Jugador 3': calles_j3})
-df.to_excel('resultados.xlsx',sheet_name='calles',index=False)
+df.to_excel('calles.xlsx',sheet_name='calles',index=False)
 df = DataFrame({'Jugador 1': casas_j1, 'Jugador 2': casas_j2, 'Jugador 3': casas_j3})
-df.to_excel('resultados.xlsx',sheet_name='casas',index=False)
+df.to_excel('casas.xlsx',sheet_name='calles',index=False)
 
 print("Se acabó! El ganador es el jugador %i!\n" % (partida.jugadores_activos[0]+1))

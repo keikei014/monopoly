@@ -145,7 +145,7 @@ class Jugador_Fuzzy(Jugador):
         #self.nCalles = len(self.propiedades.calles) 
         #self.nEstaciones = len(self.propiedades.estaciones)
         print("El jugador %i se lo está pensando...\n" % (self.id+1))
-        sleep(3.0)
+        # sleep(3.0)
         print("El jugador %i ha tirado el dado!\n" % (self.id+1))
 
         tirada, dobles = self.tirarDado(partida)
@@ -221,7 +221,7 @@ class Jugador_IA(Jugador):
 
     def jugarTurno(self, partida, queue):
         print(f"El jugador {self.id + 1} se lo está pensando...\n")
-        sleep(1.0)
+        # sleep(1.0)
         print(f"El jugador {self.id + 1} ha tirado el dado!\n")
 
         tirada, dobles = self.tirarDado(partida)
@@ -321,7 +321,7 @@ class Jugador_IAlisto(Jugador):
 
     def jugarTurno(self, partida, queue):
         print(f"El jugador {self.id + 2} se lo está pensando...\n")
-        sleep(1.0)
+        # sleep(1.0)
         print(f"El jugador {self.id + 2} ha tirado el dado!\n")
 
         tirada, dobles = self.tirarDado(partida)

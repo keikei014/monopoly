@@ -21,7 +21,7 @@ class Partida:
             # cuando llega al final del tablero, empieza una nueva vuelta
             self.jugadores[id].posicion -= len(self.tablero)
             # al pasar por la casilla de salida cobras
-            self.actualizarDinero(id, 400)
+            self.actualizarDinero(id, 100)
             print("Has dado una vuelta al tablero. Recibes 400 dolaritos\n")
 
         print("La nueva posicion del jugador {} es {}\n".format(id+1,self.jugadores[id].posicion))

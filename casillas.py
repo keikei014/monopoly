@@ -13,6 +13,9 @@ class Casilla:
     def activarEfecto():
         pass
 
+    def activarEfectoIA():
+        pass
+
     def activarEfecto_Fuzzy():
         pass
 
@@ -52,6 +55,16 @@ class Calle(Casilla):
             cantidad = self.alquiler[self.nCasas]
             partida.pagarAlquiler(self.propietario, id, cantidad)
 
+    def activarEfectoIA(self, partida, id):
+        if self.propietario is None:
+                partida.adquirirCalle(self.id, id)
+    
+        elif self.propietario != id:
+            print("Esta calle tiene dueño! Tienes que pagar renta.")
+            cantidad = self.alquiler[self.nCasas]
+            # Ensure that propietario ID is passed, not the object
+            partida.pagarAlquiler(self.propietario.id if hasattr(self.propietario, 'id') else self.propietario, id, cantidad)
+    
     def activarEfecto_Fuzzy(self, partida, id):
         if( self.propietario == None ):
             decisioncalle = comprar_calle_fuzzy(partida.jugadores[id].dinero, partida.jugadores[id].nCalles, partida.jugadores[id].nEstaciones)
@@ -86,6 +99,17 @@ class Estacion(Casilla):
         else:
             print("Estas en una propiedad que te pertenece...")
 
+    def activarEfectoIA(self, partida, id):
+        if( self.propietario == None ):
+                partida.adquirirEstacion(self.id, id)
+        elif( self.propietario != id):
+            print("Esta estacion tiene dueño. Tienes que pagar una renta.")
+            nEstaciones = len(partida.jugadores[self.propietario].propiedades.estaciones)
+            cantidad = self.alquiler[nEstaciones-1]
+            partida.pagarAlquiler(self.propietario, id, cantidad)
+        else:
+            print("Estas en una propiedad que te pertenece...")
+    
     def activarEfecto_Fuzzy(self, partida, id):
         if( self.propietario == None ):
             decisionest = comprar_estaciones_fuzzy(partida.jugadores[id].dinero, partida.jugadores[id].nCalles, partida.jugadores[id].nEstaciones)
@@ -105,11 +129,17 @@ class Estacion(Casilla):
 
 class Suerte(Casilla):
     def activarEfecto(self, partida, id):
-        cantidad = 100*randint(-10,10)
+        cantidad = 100*randint(-5,5)
         print("Has caido en una casilla de suerte!")
 
         partida.actualizarDinero(id,cantidad)
 
+    def activarEfectoIA(self, partida, id):
+        cantidad = 100*randint(-5,5)
+        print("Has caido en una casilla de suerte!")
+
+        partida.actualizarDinero(id,cantidad)
+    
     def activarEfecto_Fuzzy(self, partida, id):
         cantidad = 100*randint(-5,5)
         print("Has caido en una casilla de suerte!")
@@ -121,6 +151,10 @@ class AlaCarcel(Casilla):
         partida.encarcelarJugador(id)
         print("A la carcel!")
 
+    def activarEfectoIA(self, partida, id):
+        partida.encarcelarJugador(id)
+        print("A la carcel!")    
+
     def activarEfecto_Fuzzy(self, partida, id):
         partida.encarcelarJugador(id)
         print("A la carcel!")
@@ -128,6 +162,9 @@ class AlaCarcel(Casilla):
 class Carcel(Casilla):
     def activarEfecto(self, partida, id):
         print("Has caido en la cárcel, pero solo de visita")
+
+    def activarEfectoIA(self, partida, id):
+        print("Has caido en la cárcel, pero solo de visita")   
 
     def activarEfecto_Fuzzy(self, partida, id):
         print("Has caido en la cárcel, pero solo de visita")

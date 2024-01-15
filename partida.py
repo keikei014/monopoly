@@ -109,6 +109,17 @@ class Partida:
 
     def declararBancarrota(self, jugadorId):
         self.jugadores[jugadorId].arruinado = True
+        for calle in self.jugadores[jugadorId].propiedades.calles:
+            self.tablero[calle].propietario = None
+            self.tablero[calle].nCasas = 0
+        
+        self.jugadores[jugadorId].propiedades.calles = []
+
+        for estacion in self.jugadores[jugadorId].propiedades.estaciones:
+            self.tablero[estacion].propietario = None
+        
+        self.jugadores[jugadorId].propiedades.estaciones = []
+
         self.jugadores_activos.remove(jugadorId)
         print("Jugador %i, estas en la ruina! Ya no juegas mas." % (jugadorId+1))
         self.nJugadores -= 1

@@ -2,17 +2,16 @@ from partida import Partida
 from threading import Thread
 from queue import Queue
 from casillas import Suerte, AlaCarcel, Carcel, Estacion, Inicio, Calle
-from jugadores import Jugador_IA    
+from jugadores import Jugador_IA, Jugador_IAlisto, Jugador_Fuzzy
 
 # Crear jugadores
 
 
 
 jugador1 = Jugador_IA("Jugador1", 0)
-jugador2 = Jugador_IA("Jugador2", 1)
-jugador3= Jugador_IA("Jugador3", 2)
-jugador4 = Jugador_IA("Jugador4", 3)
-jugadores = [jugador1, jugador2, jugador3, jugador4]
+jugador2 = Jugador_IAlisto("Jugador2", 1)
+jugador3= Jugador_Fuzzy("Jugador3", 2)
+jugadores = [jugador1, jugador2, jugador3]
     
 
 # Inicializar tablero

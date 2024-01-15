@@ -3,6 +3,8 @@ PROYECTO MONOPOLY
 Proyecto para la asignatura de Inteligencia Artificial en el que se ha programado un juego de Monopoly con el que probar distintas propuestas de IAs que juegan al juego.
 
 INSTRUCCIONES:
+El repositorio incluye un fichero 'requirements.txt' para instalar todas las dependencias ejecutando:
+   pip install -r requirements.txt
 1. Para simular una partida entre IAs pre-configuradas, ejecutar el archivo "main.py"
 2. Para configurar una partida con la posibilidad de incluir jugadores humanos y ver cómo las IAs toman decisiones, ejecutar el archivo "monopoly.py"
 

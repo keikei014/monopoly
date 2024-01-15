@@ -31,7 +31,7 @@ class Jugador:
     nombre = None
     id = None
     posicion = 0
-    dinero = 1000
+    dinero = 2000
     nCalles = 0
     nEstaciones = 0
     nCasastotales = 0

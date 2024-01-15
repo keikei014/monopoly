@@ -319,9 +319,9 @@ class Jugador_IAlisto(Jugador):
         self.propiedades = Propiedades()
 
     def jugarTurno(self, partida, queue):
-        print(f"El jugador {self.id + 2} se lo está pensando...\n")
+        print(f"El jugador {self.id + 1} se lo está pensando...\n")
         # sleep(1.0)
-        print(f"El jugador {self.id + 2} ha tirado el dado!\n")
+        print(f"El jugador {self.id + 1} ha tirado el dado!\n")
 
         tirada, dobles = self.tirarDado(partida)
         if self.carcel == 0:
@@ -367,12 +367,12 @@ class Jugador_IAlisto(Jugador):
 
          if self.dinero >= casilla.precio + margen_seguridad:
             if self.bloquearOponente(partida, casilla) or self.esCompraEstrategica(partida, casilla):
-                print(f"El jugador {self.id + 2} decide comprar {casilla.nombre}.")
+                print(f"El jugador {self.id + 1} decide comprar {casilla.nombre}.")
                 partida.tablero[casilla.id].activarEfectoIA(partida, self.id)
             else:
-                print(f"El jugador {self.id + 2} decide no comprar {casilla.nombre} a pesar de tener suficientes fondos.")
+                print(f"El jugador {self.id + 1} decide no comprar {casilla.nombre} a pesar de tener suficientes fondos.")
          else:
-            print(f"El jugador {self.id + 2} no tiene suficiente dinero para comprar {casilla.nombre}.")
+            print(f"El jugador {self.id + 1} no tiene suficiente dinero para comprar {casilla.nombre}.")
 
           
     def bloquearOponente(self, partida, casilla):
@@ -416,10 +416,10 @@ class Jugador_IAlisto(Jugador):
         margen_seguridad = 500  # Mantener una reserva de dinero después de la compra
 
         if self.dinero >= casilla.precio + margen_seguridad and self.esCompraEstrategicaEstacion(partida, casilla):
-            print(f"El jugador {self.id + 2} decide comprar la estación {casilla.nombre}.")
+            print(f"El jugador {self.id + 1} decide comprar la estación {casilla.nombre}.")
             partida.tablero[casilla.id].activarEfectoIA(partida, self.id)
         else:
-            print(f"El jugador {self.id + 2} no tiene suficiente dinero para comprar la estación {casilla.nombre}.")
+            print(f"El jugador {self.id + 1} no tiene suficiente dinero para comprar la estación {casilla.nombre}.")
 
     def esCompraEstrategicaEstacion(self, partida, casilla):
         estaciones_poseidas = sum(1 for c in self.propiedades.estaciones)
@@ -445,7 +445,7 @@ class Jugador_IAlisto(Jugador):
 
             if propiedad_a_vender:
                 tipo_propiedad = type(partida.tablero[propiedad_a_vender]).__name__
-                print(f"El jugador IA {self.id + 2} vende la {tipo_propiedad} {partida.tablero[propiedad_a_vender].nombre} por {partida.tablero[propiedad_a_vender].precio / 2} dolaritos.")
+                print(f"El jugador IA {self.id + 1} vende la {tipo_propiedad} {partida.tablero[propiedad_a_vender].nombre} por {partida.tablero[propiedad_a_vender].precio / 2} dolaritos.")
                 
                 if tipo_propiedad == 'Estacion':
                     partida.venderEstacion(propiedad_a_vender, self.id)
@@ -486,7 +486,7 @@ class Jugador_IAlisto(Jugador):
                 self.dinero -= costo_casa * cantidad_casas
                 partida.añadirCasa(self.id, id_calle, cantidad_casas)
 
-                print(f"El jugador IA {self.id + 2} ha construido {cantidad_casas} casa(s) en {calle.nombre} gastando {costo_casa * cantidad_casas} dolaritos.")
+                print(f"El jugador IA {self.id + 1} ha construido {cantidad_casas} casa(s) en {calle.nombre} gastando {costo_casa * cantidad_casas} dolaritos.")
                 break  
 
     def elegirMejoresPropiedadesParaConstruir(self, partida):

@@ -1,7 +1,9 @@
 from partida import Partida
 from threading import Thread
 from queue import Queue
-from jugadores import Suerte, AlaCarcel, Carcel, Estacion, Inicio, Calle, Jugador_IA, Jugador_IAlisto, Jugador_Fuzzy
+from casillas import Suerte, AlaCarcel, Carcel, Estacion, Inicio, Calle
+from jugadores import Jugador_IA, Jugador_IAlisto, Jugador_Fuzzy
+
 # Crear jugadores
 
 

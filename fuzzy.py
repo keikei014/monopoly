@@ -46,9 +46,11 @@ def comprar_calle_fuzzy(dinero_val, calles_val, estaciones_val):
     regla18 = ctrl.Rule(dinero['mucho_dinero'] &  calles['muchas'] & estaciones['muchas'], comprar_calle['comprar'])
     regla19 = ctrl.Rule(dinero['mucho_dinero'] &  calles['muchisimas'] & estaciones['muchas'], comprar_calle['comprar'])
     regla20 = ctrl.Rule(dinero['muchisimo_dinero'], comprar_calle['comprar'])
+    regla21 = ctrl.Rule(dinero['muy_poco'] & (calles['medio'] | estaciones['muchas']), comprar_calle['no_comprar'])
+    regla22 = ctrl.Rule(dinero['muy_poco'] & (calles['muchisimas'] | estaciones['pocas'] | calles['pocas']), comprar_calle['no_comprar'])
 
     # Sistema de control difuso
-    sistema_comprar_calle = ctrl.ControlSystem([regla1, regla2, regla3, regla4, regla5, regla6, regla7, regla8, regla9, regla10, regla11, regla12, regla13, regla14, regla15, regla16, regla17, regla18, regla19, regla20])
+    sistema_comprar_calle = ctrl.ControlSystem([regla1, regla2, regla3, regla4, regla5, regla6, regla7, regla8, regla9, regla10, regla11, regla12, regla13, regla14, regla15, regla16, regla17, regla18, regla19, regla20, regla21, regla22])
 
     # Simulador
     simulador_comprar_calle = ctrl.ControlSystemSimulation(sistema_comprar_calle)

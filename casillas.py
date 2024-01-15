@@ -167,4 +167,3 @@ class Carcel(Casilla):
 
     def activarEfecto_Fuzzy(self, partida, id):
         print("Has caido en la cárcel, pero solo de visita")
-

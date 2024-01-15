@@ -162,19 +162,20 @@ class Jugador_Fuzzy(Jugador):
         else:
             partida.manejarCarcel(self.id, tirada, dobles)
 
-        # Evaluar posible venta de propiedades:
-        venta = venta_calle_Fuzzy(self.dinero, self.nCalles, self.nEstaciones)
-        if venta == 1:
-            self.venta_fuzzy(partida)
-        else:
-            print("Fuzzy ha decidido no vender nada.")
+        if self.dinero > 0:
+            # Evaluar posible venta de propiedades:
+            venta = venta_calle_Fuzzy(self.dinero, self.nCalles, self.nEstaciones)
+            if venta == 1:
+                self.venta_fuzzy(partida)
+            else:
+                print("Fuzzy ha decidido no vender nada.")
 
-        # Evaluar poner casas:
-        casas = poner_casas_Fuzzy(self.dinero, self.nCalles, self.nEstaciones)
-        if casas == 1:
-            self.poner_casas(partida)
-        else:
-            print("Fuzzy ha decidido no poner casas.")
+            # Evaluar poner casas:
+            casas = poner_casas_Fuzzy(self.dinero, self.nCalles, self.nEstaciones)
+            if casas == 1:
+                self.poner_casas(partida)
+            else:
+                print("Fuzzy ha decidido no poner casas.")
 
         queue.put(partida)
 
@@ -209,7 +210,7 @@ class Jugador_Fuzzy(Jugador):
             else:
                 cantidad = 1
             print("Fuzzy ha decidido poner en {0} %i casas ".format(partida.tablero[self.propiedades.calles[calle_maximo[0]]].nombre, cantidad))
-            partida.añadirCasa(self.id, self.propiedades.calles[int(calle_maximo)], cantidad)
+            partida.añadirCasa(self.id, self.propiedades.calles[calle_maximo[0]], cantidad)
 
 class Jugador_IA(Jugador):
     

@@ -1,4 +1,5 @@
 PROYECTO MONOPOLY
+
 Proyecto para la asignatura de Inteligencia Artificial en el que se ha programado un juego de Monopoly con el que probar distintas propuestas de IAs que juegan al juego.
 
 INSTRUCCIONES:

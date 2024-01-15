@@ -92,15 +92,15 @@ while(partida.nJugadores > 1):
     calles_j3.append(len(partida.jugadores[2].propiedades.calles))
 
     casas = 0
-    for calle in partida.jugadores[0].calles:
+    for calle in partida.jugadores[0].propiedades.calles:
         casas += calle.nCasas
     casas_j1.append(casas)
     casas = 0
-    for calle in partida.jugadores[1].calles:
+    for calle in partida.jugadores[1].propiedades.calles:
         casas += calle.nCasas
     casas_j2.append(casas)
     casas = 0
-    for calle in partida.jugadores[2].calles:
+    for calle in partida.jugadores[2].propiedades.calles:
         casas += calle.nCasas
     casas_j3.append(casas)
     

@@ -1,5 +1,6 @@
 from random import randint
 from time import sleep
+from fuzzy import venta_calle_Fuzzy, poner_casas_Fuzzy
 
 class Propiedades:
     def __init__(self):
@@ -29,15 +30,18 @@ class Jugador:
     nombre = None
     id = None
     posicion = 0
-    dinero = 10
+    dinero = 1000
+    nCalles = 0
+    nEstaciones = 0
+    nCasastotales = 0
     arruinado = False
 
     # contador de carcel, se pone a 1 si un jugador entra en la carcel
     carcel = 0
 
     def tirarDado(self, partida):
-        dado1 = randint(1,3)
-        dado2 = randint(1,3)
+        dado1 = randint(1,5)
+        dado2 = randint(1,5)
 
         dobles = False
         
@@ -124,6 +128,87 @@ class Jugador_Humano(Jugador):
             print("Cada casa te cuesta %i dolaritos. ¿Cuántas quieres construir? (1-5)" % (partida.tablero[self.propiedades.calles[int(accion)-1]].precio/2))
             cantidad = int(input())
             partida.añadirCasa(self.id, self.propiedades.calles[int(accion)-1], cantidad)
+
+class Jugador_Fuzzy(Jugador):
+    
+    def __init__(self, nombre, id):
+        self.nombre = nombre
+        self.id = id
+        self.propiedades = Propiedades()
+        self.nCalles = 0
+        self.nEstaciones = 0
+        self.nCasastotales = 0
+
+    def jugarTurno(self,partida,queue):
+
+        #self.nCalles = len(self.propiedades.calles) 
+        #self.nEstaciones = len(self.propiedades.estaciones)
+        print("El jugador %i se lo está pensando...\n" % (self.id+1))
+        sleep(3.0)
+        print("El jugador %i ha tirado el dado!\n" % (self.id+1))
+
+        tirada, dobles = self.tirarDado(partida)
+        if(self.carcel == 0):
+            casilla = partida.moverJugador(self.id, tirada)
+            if( dobles ):
+                print("Has sacado dobles!")
+            
+
+            self.nCalles = len(self.propiedades.calles) 
+            self.nEstaciones = len(self.propiedades.estaciones) 
+            partida.tablero[casilla].activarEfecto_Fuzzy(partida, self.id)
+
+        else:
+            partida.manejarCarcel(self.id, tirada, dobles)
+
+        # Evaluar posible venta de propiedades:
+        venta = venta_calle_Fuzzy(self.dinero, self.nCalles, self.nEstaciones)
+        if venta == 1:
+            self.venta_fuzzy(partida)
+        else:
+            print("Fuzzy ha decidido no vender nada.")
+
+        # Evaluar poner casas:
+        casas = poner_casas_Fuzzy(self.dinero, self.nCalles, self.nEstaciones)
+        if casas == 1:
+            self.poner_casas(partida)
+        else:
+            print("Fuzzy ha decidido no poner casas.")
+
+        queue.put(partida)
+
+
+    def venta_fuzzy(self, partida):
+        calles_p = self.propiedades.calles
+        if (len(calles_p) > 0):
+            precios_propiedades = list(range(len(self.propiedades.calles)))
+            for i in range(0, len(precios_propiedades)):
+                precios_propiedades[i] = partida.tablero[self.propiedades.calles[i]].precio
+            maximo = max(precios_propiedades)
+            calle_maximo = [i for i, valor in enumerate(precios_propiedades) if valor == maximo]
+            print("Fuzzy ha decidido vender la calle {0} por {1} dolaritos.".format(partida.tablero[self.propiedades.calles[calle_maximo[0]]].nombre,(partida.tablero[self.propiedades.calles[calle_maximo[0]]].precio/2)))
+            partida.venderCalle(self.propiedades.calles[calle_maximo[0]], self.id)
+            
+        else:
+            print("Fuzzy no dispone de calle para vender")
+
+    
+    def poner_casas(self,partida):
+        calles_p = self.propiedades.calles
+        if (len(calles_p) > 0):
+            precios_propiedades = list(range(len(self.propiedades.calles)))
+            for i in range(0, len(precios_propiedades)):
+                precios_propiedades[i] = partida.tablero[self.propiedades.calles[i]].precio
+            maximo = max(precios_propiedades)
+            calle_maximo = [i for i, valor in enumerate(precios_propiedades) if valor == maximo]
+            if self.dinero > 2000:
+                cantidad = 3
+            elif self.dinero > 1500:
+                cantidad = 2
+            else:
+                cantidad = 1
+            print("Fuzzy ha decidido poner en {0} %i casas ".format(partida.tablero[self.propiedades.calles[calle_maximo[0]]].nombre, cantidad))
+            partida.añadirCasa(self.id, self.propiedades.calles[int(calle_maximo)], cantidad)
 
 class Jugador_IA(Jugador):
     

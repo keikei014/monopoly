@@ -3,6 +3,7 @@ from threading import Thread
 from queue import Queue
 from casillas import Suerte, AlaCarcel, Carcel, Estacion, Inicio, Calle
 from jugadores import Jugador_IA, Jugador_IAlisto, Jugador_Fuzzy
+from pandas import DataFrame
 
 # Crear jugadores
 
@@ -43,6 +44,21 @@ tablero[23] = Calle("EldenRin", 23, 3, 300, [80, 105, 150, 20, 350, 500])
 
 # Crear la partida
 partida = Partida(tablero, jugadores)
+dinero_j1 = [0]
+dinero_j2 = [0]
+dinero_j3 = [0]
+
+est_j1 = [0]
+est_j2 = [0]
+est_j3 = [0]
+
+calles_j1 = [0]
+calles_j2 = [0]
+calles_j3 = [0]
+
+casas_j1 = [0]
+casas_j2 = [0]
+casas_j3 = [0]
 
 q = Queue()
 
@@ -62,5 +78,40 @@ while(partida.nJugadores > 1):
         
         if( partida.nJugadores == 1 ):
             break
+    
+    dinero_j1.append(partida.jugadores[0].dinero)
+    dinero_j2.append(partida.jugadores[1].dinero)
+    dinero_j3.append(partida.jugadores[2].dinero)
+
+    est_j1.append(len(partida.jugadores[0].propiedades.estaciones))
+    est_j2.append(len(partida.jugadores[1].propiedades.estaciones))
+    est_j3.append(len(partida.jugadores[2].propiedades.estaciones))
+
+    calles_j1.append(len(partida.jugadores[0].propiedades.calles))
+    calles_j2.append(len(partida.jugadores[1].propiedades.calles))
+    calles_j3.append(len(partida.jugadores[2].propiedades.calles))
+
+    casas = 0
+    for calle in partida.jugadores[0].calles:
+        casas += calle.nCasas
+    casas_j1.append(casas)
+    casas = 0
+    for calle in partida.jugadores[1].calles:
+        casas += calle.nCasas
+    casas_j2.append(casas)
+    casas = 0
+    for calle in partida.jugadores[2].calles:
+        casas += calle.nCasas
+    casas_j3.append(casas)
+    
+    
+df = DataFrame({'Jugador 1': dinero_j1, 'Jugador 2': dinero_j2, 'Jugador 3': dinero_j3})
+df.to_excel('resultados.xlsx',sheet_name='dinero',index=False)
+df = DataFrame({'Jugador 1': est_j1, 'Jugador 2': est_j2, 'Jugador 3': est_j3})
+df.to_excel('resultados.xlsx',sheet_name='estaciones',index=False)
+df = DataFrame({'Jugador 1': calles_j1, 'Jugador 2': calles_j2, 'Jugador 3': calles_j3})
+df.to_excel('resultados.xlsx',sheet_name='calles',index=False)
+df = DataFrame({'Jugador 1': casas_j1, 'Jugador 2': casas_j2, 'Jugador 3': casas_j3})
+df.to_excel('resultados.xlsx',sheet_name='calles',index=False)
 
 print("Se acabó! El ganador es el jugador %i!\n" % (partida.jugadores_activos[0]+1))
